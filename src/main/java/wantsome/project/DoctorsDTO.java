@@ -30,7 +30,7 @@ public class DoctorsDTO {
 
     public Doctors toDoctors(){
         Doctors doctors= new Doctors();
-        doctors.setId(this.id);  /// daca ID e auto trebuia sa mai pun setId?
+        doctors.setId(this.id);
         doctors.setFirst_name(this.first_name);
         doctors.setLast_name(this.last_name);
         doctors.setPhone_number(this.phone_number);
