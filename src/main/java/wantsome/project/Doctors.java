@@ -9,13 +9,13 @@ public class Doctors {
     private String last_name;
     private String phone_number;
     private String email;
-    private Specializations specialization_id;
+    private int specialization_id;
 
 
     public Doctors(){
     }
 
-    public Doctors(Integer id, String first_name, String last_name, String phone_number, String email, Specializations specialization_id) {
+    public Doctors(Integer id, String first_name, String last_name, String phone_number, String email, int specialization_id) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -64,11 +64,11 @@ public class Doctors {
         this.email = email;
     }
 
-    public Specializations getSpecialization_id() {
+    public int getSpecialization_id() {
         return specialization_id;
     }
 
-    public void setSpecialization_id(Specializations specialization_id) {
+    public void setSpecialization_id(int specialization_id) {
         this.specialization_id = specialization_id;
     }
 

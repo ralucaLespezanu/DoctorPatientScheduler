@@ -7,7 +7,7 @@ import java.util.concurrent.Callable;
 
 public class PatientsDAOImpl implements PatientsDAO {
 
-    String databaseUrl= "jdbc:sqlite:C:\\Program Files\\DBeaver\\dbeaver";
+    String databaseUrl= "jdbc:sqlite:C:\\Users\\home\\raluca\\sql-dbeaver";
 
 
     @Override

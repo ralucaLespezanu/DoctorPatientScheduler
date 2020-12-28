@@ -6,7 +6,7 @@ import java.sql.*;
 
 public class DoctorsDAOImpl implements DoctorsDAO {
 
-    private static final String databaseUrl = "jdbc:sqlite:C:\\Program Files\\DBeaver\\dbeaver";
+    private static final String databaseUrl = "jdbc:sqlite:C:\\Users\\home\\raluca\\sql-dbeaver";
 
     @Override
     public void save(DoctorsDTO doctorsDTO) throws SQLException {
@@ -23,7 +23,7 @@ public class DoctorsDAOImpl implements DoctorsDAO {
         preparedStatement.setString(2, doctorsDTO.getLast_name());
         preparedStatement.setString(3, doctorsDTO.getPhone_number());
         preparedStatement.setString(4, doctorsDTO.getEmail());
-        preparedStatement.setInt(5, doctorsDTO.getSpecializations_id().getId());
+        preparedStatement.setInt(5, doctorsDTO.getSpecializations_id());
         ResultSet rs = preparedStatement.executeQuery();
         if(rs.next()){
             int idInserted = rs.getInt("ID");
@@ -51,7 +51,7 @@ public class DoctorsDAOImpl implements DoctorsDAO {
         preparedStatement.setInt(1, id);
         ResultSet rs= preparedStatement.executeQuery();
         while(rs.next()){
-            result= new DoctorsDTO(rs.getInt("ID"),rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"), rs.getString("PHONE_NUMBER"), rs.getString("EMAIL"), rs.getString("SPECIALIZATION_ID"));// nu stiu cum sa rezolv eroarea
+            result= new DoctorsDTO(rs.getInt("ID"),rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"), rs.getString("PHONE_NUMBER"), rs.getString("EMAIL"), rs.getInt("SPECIALIZATION_ID"));
         }
         if(preparedStatement!=null){
             preparedStatement.close();
@@ -65,7 +65,7 @@ public class DoctorsDAOImpl implements DoctorsDAO {
     @Override
     public DoctorsDTO update(DoctorsDTO doctorsDTO) throws SQLException {
         if(doctorsDTO.getId() == null){
-            throw new IllegalArgumentException("doctorsDTO.getID() is null.")
+            throw new IllegalArgumentException("doctorsDTO.getID() is null.");
         }
         SQLiteConfig config= new SQLiteConfig();
         config.enforceForeignKeys(true);
@@ -77,7 +77,7 @@ public class DoctorsDAOImpl implements DoctorsDAO {
         preparedStatement.setString(1, doctorsDTO.getLast_name());
         preparedStatement.setString(1, doctorsDTO.getPhone_number());
         preparedStatement.setString(1, doctorsDTO.getEmail());
-        preparedStatement.setString(1, doctorsDTO.getSpecializations_id().toString());
+        preparedStatement.setInt(1, doctorsDTO.getSpecializations_id());
 
         if(preparedStatement != null){
             preparedStatement.close();

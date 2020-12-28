@@ -6,7 +6,7 @@ public class DoctorsDTO {
     private String last_name;
     private String phone_number;
     private String email;
-    private Specializations specializations_id;
+    private int specializations_id;
 
 
     public DoctorsDTO(Doctors doctors){
@@ -19,7 +19,7 @@ public class DoctorsDTO {
     }
 
 
-    public DoctorsDTO(Integer id, String first_name, String last_name, String phone_number, String email, Specializations specializations_id) {
+    public DoctorsDTO(Integer id, String first_name, String last_name, String phone_number, String email, int specializations_id) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -30,7 +30,7 @@ public class DoctorsDTO {
 
     public Doctors toDoctors(){
         Doctors doctors= new Doctors();
-        doctors.setId(this.id);
+        doctors.setId(this.id);  /// daca ID e auto trebuia sa mai pun setId?
         doctors.setFirst_name(this.first_name);
         doctors.setLast_name(this.last_name);
         doctors.setPhone_number(this.phone_number);
@@ -59,7 +59,7 @@ public class DoctorsDTO {
         return email;
     }
 
-    public Specializations getSpecializations_id() {
+    public int getSpecializations_id() {
         return specializations_id;
     }
 }

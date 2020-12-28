@@ -9,7 +9,7 @@ import java.util.Properties;
 
 public class SpecializationsDAOImpl implements SpecializationsDAO{
 
-    private static final String databaseUrl = "jdbc:sqlite:C:\\Program Files\\DBeaver\\dbeaver";
+    private static final String databaseUrl = "jdbc:sqlite:C:\\Users\\home\\raluca\\sql-dbeaver";
 
 
     @Override
