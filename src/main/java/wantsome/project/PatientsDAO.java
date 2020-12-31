@@ -11,6 +11,6 @@ public interface PatientsDAO {
 
     PatientsDTO update(PatientsDTO patientsDTO) throws SQLException;
 
-    void delete (PatientsDTO patientsDTO) throws SQLException;
+    void delete(PatientsDTO patientsDTO) throws SQLException;
 
 }

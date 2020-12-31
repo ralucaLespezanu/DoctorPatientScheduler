@@ -13,10 +13,11 @@ public class Patients {
     private Date birth_date;
 
 
-    public Patients(){
+    public Patients() {
     }
 
-    public Patients(Integer id, String first_name, String last_name, String phone_number, String email, Date birth_date) {
+    public Patients(Integer id, String first_name, String last_name, String phone_number,
+                    String email, Date birth_date) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;

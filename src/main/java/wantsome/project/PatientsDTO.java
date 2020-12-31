@@ -12,7 +12,8 @@ public class PatientsDTO {
     private Date birth_date;
 
 
-    public PatientsDTO(Integer id, String first_name, String last_name, String phone_number, String email, Date birth_date) {
+    public PatientsDTO(Integer id, String first_name, String last_name, String phone_number,
+                       String email, Date birth_date) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -21,17 +22,17 @@ public class PatientsDTO {
         this.birth_date = birth_date;
     }
 
-    public PatientsDTO(Patients patients){
-        this.id= patients.getId();
-        this.first_name= patients.getFirst_name();
-        this.last_name= patients.getLast_name();
-        this.phone_number= patients.getPhone_number();
-        this.email= patients.getEmail();
+    public PatientsDTO(Patients patients) {
+        this.id = patients.getId();
+        this.first_name = patients.getFirst_name();
+        this.last_name = patients.getLast_name();
+        this.phone_number = patients.getPhone_number();
+        this.email = patients.getEmail();
         this.birth_date = patients.getBirth_date();
     }
 
-    public Patients toPatients(){
-        Patients patients= new Patients();
+    public Patients toPatients() {
+        Patients patients = new Patients();
         patients.setId(this.id);
         patients.setFirst_name(this.first_name);
         patients.setLast_name(this.last_name);

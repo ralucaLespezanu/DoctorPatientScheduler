@@ -10,13 +10,13 @@ public class SpecializationsDTO {
         this.description = description;
     }
 
-    public SpecializationsDTO(Specializations specializations){
-        this.id= specializations.getId();
-        this.description= specializations.getDescription();
+    public SpecializationsDTO(Specializations specializations) {
+        this.id = specializations.getId();
+        this.description = specializations.getDescription();
     }
 
-    public Specializations toSpecializations(){
-        Specializations specializations= new Specializations();
+    public Specializations toSpecializations() {
+        Specializations specializations = new Specializations();
         specializations.setId(this.id);
         specializations.setDescription(this.description);
         return specializations;

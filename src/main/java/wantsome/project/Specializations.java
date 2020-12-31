@@ -8,7 +8,7 @@ public class Specializations {
     private String description;
 
 
-    public Specializations(){
+    public Specializations() {
     }
 
     public Specializations(Integer id, String description) {

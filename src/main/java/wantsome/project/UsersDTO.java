@@ -14,15 +14,15 @@ public class UsersDTO {
         this.password = password;
     }
 
-    public UsersDTO(Users users){
-        this.id= users.getId();
-        this.first_name= users.getFirst_name();
-        this.last_name= users.getLast_name();
-        this.password= users.getPassword();
+    public UsersDTO(Users users) {
+        this.id = users.getId();
+        this.first_name = users.getFirst_name();
+        this.last_name = users.getLast_name();
+        this.password = users.getPassword();
     }
 
-    public Users toUsers(){
-        Users user= new Users();
+    public Users toUsers() {
+        Users user = new Users();
         user.setId(this.id);
         user.setFirst_name(this.first_name);
         user.setLast_name(this.last_name);

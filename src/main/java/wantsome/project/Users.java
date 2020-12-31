@@ -16,7 +16,7 @@ public class Users {
         this.password = password;
     }
 
-    public Users(){
+    public Users() {
 
     }
 
@@ -57,7 +57,8 @@ public class Users {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Users users = (Users) o;
-        return id == users.id && Objects.equals(first_name, users.first_name) && Objects.equals(last_name, users.last_name) && Objects.equals(password, users.password);
+        return id == users.id && Objects.equals(first_name, users.first_name) &&
+                 Objects.equals(last_name, users.last_name) && Objects.equals(password, users.password);
     }
 
     @Override

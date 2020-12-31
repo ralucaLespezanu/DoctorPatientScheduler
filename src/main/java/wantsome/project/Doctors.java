@@ -12,10 +12,11 @@ public class Doctors {
     private int specialization_id;
 
 
-    public Doctors(){
+    public Doctors() {
     }
 
-    public Doctors(Integer id, String first_name, String last_name, String phone_number, String email, int specialization_id) {
+    public Doctors(Integer id, String first_name, String last_name,
+                   String phone_number, String email, int specialization_id) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;

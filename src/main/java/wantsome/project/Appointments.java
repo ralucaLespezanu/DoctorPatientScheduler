@@ -11,19 +11,21 @@ public class Appointments {
     private Integer id;
     private Integer doctor_id;
     private Integer patient_id;
-    private Timestamp date;
+    private Timestamp appDate;
     private Check status;
     private String doctor_notes;
     private String patient_notes;
 
-    public Appointments(){
+    public Appointments() {
     }
 
-    public Appointments(Integer id, Integer doctor_id, Integer patient_id, Timestamp date, Check status, String doctor_notes, String patient_notes) {
+    public Appointments(Integer id, Integer doctor_id, Integer patient_id,
+                        Timestamp appDate, Check status, String doctor_notes,
+                        String patient_notes) {
         this.id = id;
         this.doctor_id = doctor_id;
         this.patient_id = patient_id;
-        this.date = date;
+        this.appDate = appDate;
         this.status = status;
         this.doctor_notes = doctor_notes;
         this.patient_notes = patient_notes;
@@ -53,12 +55,12 @@ public class Appointments {
         this.patient_id = patient_id;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public Timestamp getAppDate() {
+        return appDate;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setAppDate(Timestamp appDate) {
+        this.appDate = appDate;
     }
 
     public Check getStatus() {
@@ -93,7 +95,7 @@ public class Appointments {
         return Objects.equals(id, that.id) &&
                 Objects.equals(doctor_id, that.doctor_id) &&
                 Objects.equals(patient_id, that.patient_id) &&
-                Objects.equals(date, that.date) &&
+                Objects.equals(appDate, that.appDate) &&
                 status == that.status &&
                 Objects.equals(doctor_notes, that.doctor_notes) &&
                 Objects.equals(patient_notes, that.patient_notes);
@@ -101,7 +103,7 @@ public class Appointments {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, doctor_id, patient_id, date, status, doctor_notes, patient_notes);
+        return Objects.hash(id, doctor_id, patient_id, appDate, status, doctor_notes, patient_notes);
     }
 
     @Override
@@ -110,7 +112,7 @@ public class Appointments {
                 "id=" + id +
                 ", doctor_id=" + doctor_id +
                 ", patient_id=" + patient_id +
-                ", date=" + date +
+                ", date=" + appDate +
                 ", status=" + status +
                 ", doctor_notes_text='" + doctor_notes + '\'' +
                 ", patient_notes_text='" + patient_notes + '\'' +

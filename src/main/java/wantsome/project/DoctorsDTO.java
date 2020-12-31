@@ -9,17 +9,18 @@ public class DoctorsDTO {
     private int specializations_id;
 
 
-    public DoctorsDTO(Doctors doctors){
-        this.id= doctors.getId();
-        this.first_name= doctors.getFirst_name();
-        this.last_name= doctors.getLast_name();
-        this.phone_number= doctors.getPhone_number();
-        this.email= doctors.getEmail();
-        this.specializations_id= doctors.getSpecialization_id();
+    public DoctorsDTO(Doctors doctors) {
+        this.id = doctors.getId();
+        this.first_name = doctors.getFirst_name();
+        this.last_name = doctors.getLast_name();
+        this.phone_number = doctors.getPhone_number();
+        this.email = doctors.getEmail();
+        this.specializations_id = doctors.getSpecialization_id();
     }
 
 
-    public DoctorsDTO(Integer id, String first_name, String last_name, String phone_number, String email, int specializations_id) {
+    public DoctorsDTO(Integer id, String first_name, String last_name, String phone_number,
+                      String email, int specializations_id) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -28,8 +29,8 @@ public class DoctorsDTO {
         this.specializations_id = specializations_id;
     }
 
-    public Doctors toDoctors(){
-        Doctors doctors= new Doctors();
+    public Doctors toDoctors() {
+        Doctors doctors = new Doctors();
         doctors.setId(this.id);
         doctors.setFirst_name(this.first_name);
         doctors.setLast_name(this.last_name);

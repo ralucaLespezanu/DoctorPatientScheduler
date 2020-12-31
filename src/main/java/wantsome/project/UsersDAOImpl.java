@@ -6,53 +6,54 @@ import java.sql.*;
 
 public class UsersDAOImpl implements UsersDAO {
 
-    private static final String databaseUrl= "jdbc:sqlite:C:\\Users\\home\\raluca\\sql-dbeaver";
+    private static final String databaseUrl = "jdbc:sqlite:C:\\Users\\home\\raluca\\sql-dbeaver";
 
     @Override
     public void save(UsersDTO usersDTO) throws SQLException {
         System.out.println("About to save: " + usersDTO.toString());
-        SQLiteConfig config= new SQLiteConfig();
+        SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
-        Connection connection= DriverManager.getConnection(databaseUrl);
-        String query= "INSERT INTO users(first_name, last_name, password) VALUES (?, ?, ?)";
-        PreparedStatement preparedStatement= connection.prepareStatement(query);
+        Connection connection = DriverManager.getConnection(databaseUrl);
+        String query = "INSERT INTO users(first_name, last_name, password) VALUES (?, ?, ?)";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setString(1, usersDTO.getFirst_name());
         preparedStatement.setString(2, usersDTO.getLast_name());
         preparedStatement.setString(3, usersDTO.getPassword());
 
-        ResultSet rs= preparedStatement.executeQuery();
-        while(rs.next()){
-            int IDinserted= rs.getInt("id");
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            int IDinserted = rs.getInt("id");
             System.out.println("User with id created: " + IDinserted);
         }
-        if(preparedStatement!= null){
+        if (preparedStatement != null) {
             preparedStatement.close();
         }
-        if(connection!= null){
+        if (connection != null) {
             connection.close();
         }
     }
 
     @Override
     public UsersDTO get(int id) throws SQLException {
-        UsersDTO result= null;
-        SQLiteConfig config= new SQLiteConfig();
+        UsersDTO result = null;
+        SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
-        Connection connection= DriverManager.getConnection(databaseUrl, config.toProperties());
-        String query= "SELECT FROM users WHERE ID= ?";
-        PreparedStatement preparedStatement= connection.prepareStatement(query);
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "SELECT FROM users WHERE ID= ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setInt(1, id);
-        ResultSet rs= preparedStatement.executeQuery();
-        while(rs.next()){
-            result= new UsersDTO(rs.getInt("ID"),rs.getString("FIRST_NAME"), rs.getString("LAST_NAME"), rs.getString("PASSWORD"));
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result = new UsersDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
+                    rs.getString("LAST_NAME"), rs.getString("PASSWORD"));
         }
-        if(preparedStatement!= null){
+        if (preparedStatement != null) {
             preparedStatement.close();
         }
-        if(connection!= null){
+        if (connection != null) {
             connection.close();
         }
         return result;
@@ -60,24 +61,24 @@ public class UsersDAOImpl implements UsersDAO {
 
     @Override
     public UsersDTO update(UsersDTO usersDTO) throws SQLException {
-        if(usersDTO.getId()==null){
+        if (usersDTO.getId() == null) {
             throw new IllegalArgumentException("usersDAO.getID() is null.");
         }
-        SQLiteConfig config= new SQLiteConfig();
+        SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
-        Connection connection= DriverManager.getConnection(databaseUrl);
-        String query= "UPDATE users SET FIRST_NAME=?, LAST_NAME=?, PASSWORD=? ";
-        PreparedStatement preparedStatement= connection.prepareStatement(query);
+        Connection connection = DriverManager.getConnection(databaseUrl);
+        String query = "UPDATE users SET FIRST_NAME=?, LAST_NAME=?, PASSWORD=? ";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1, usersDTO.getFirst_name());
         preparedStatement.setString(2, usersDTO.getLast_name());
         preparedStatement.setString(3, usersDTO.getPassword());
 
-        if(preparedStatement!= null){
+        if (preparedStatement != null) {
             preparedStatement.close();
         }
-        if(connection!= null){
+        if (connection != null) {
             connection.close();
         }
         return usersDTO;
@@ -85,22 +86,22 @@ public class UsersDAOImpl implements UsersDAO {
 
     @Override
     public void delete(UsersDTO usersDTO) throws SQLException {
-        if(usersDTO.getId()==null){
+        if (usersDTO.getId() == null) {
             throw new IllegalArgumentException("usersDTO.getId() is null");
         }
-        SQLiteConfig config= new SQLiteConfig();
+        SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
-        Connection connection= DriverManager.getConnection(databaseUrl);
-        String query= "DELETE FROM users WHERE ID=?";
+        Connection connection = DriverManager.getConnection(databaseUrl);
+        String query = "DELETE FROM users WHERE ID=?";
 
-        PreparedStatement preparedStatement= connection.prepareStatement(query);
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, usersDTO.getId());
 
-        if (preparedStatement!=null){
+        if (preparedStatement != null) {
             preparedStatement.close();
         }
-        if(connection!=null){
+        if (connection != null) {
             connection.close();
         }
     }
