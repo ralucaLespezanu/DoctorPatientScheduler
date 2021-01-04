@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DoctorsWebService {
-
     private static Map<String, Doctors> doctors = new HashMap<>();
 
     public static void main(String[] args) {
@@ -42,7 +41,7 @@ public class DoctorsWebService {
                 return gson.toJson(new Message("Bad Request - Doctor already exists!"));
             }
             doctors.put(last_name, newDoctor);
-            response.status(201);
+            response.status(200);
             return gson.toJson(new Message("Doctor added successfully!"));
         });
 
@@ -75,6 +74,7 @@ public class DoctorsWebService {
         });
 
     }
+
 }
 
 
