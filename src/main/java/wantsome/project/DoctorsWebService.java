@@ -13,8 +13,10 @@ public class DoctorsWebService {
 
     public static void main(String[] args) {
 
-        doctors.put("Popoescu", new Doctors(1, "Mihai", "Popoescu", "mihaipopescu@email.com", "0744919900", 1));
-        doctors.put("Ionescu", new Doctors(2,"Teodora", "Ionescu", "teodoraionescu@email.com", "0744919901", 1));
+        doctors.put("Popoescu", new Doctors(1, "Mihai", "Popoescu",
+                "mihaipopescu@email.com", "0744919900", 1));
+        doctors.put("Ionescu", new Doctors(2, "Teodora", "Ionescu",
+                "teodoraionescu@email.com", "0744919901", 1));
 
         get("/doctors", (request, response) -> {
             response.type("application/json");
