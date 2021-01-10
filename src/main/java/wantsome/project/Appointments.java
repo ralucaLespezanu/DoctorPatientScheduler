@@ -43,7 +43,7 @@ public class Appointments {
         return doctor_id;
     }
 
-    public void setDoctor_id(int doctor_id) {
+    public void setDoctor_id(Integer doctor_id) {
         this.doctor_id = doctor_id;
     }
 
@@ -51,7 +51,7 @@ public class Appointments {
         return patient_id;
     }
 
-    public void setPatient_id(int patient_id) {
+    public void setPatient_id(Integer patient_id) {
         this.patient_id = patient_id;
     }
 
