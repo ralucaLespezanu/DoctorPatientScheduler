@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Specializations</title>
+    <style>
+        table, tr, td {
+            border: 1px solid coral;
+            padding: 10px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<h1> Specializations </h1>
+<table>
+    <tr>
+        <td>ID</td>
+        <td>DESCRIPTION</td>
+    </tr>
+    #foreach($specialization in $specializations)
+        <tr>
+            <td>$specialization.id</td>
+            <td>$specialization.description</td>
+        </tr>
+    #end
+</table>
+</body>
+</html>

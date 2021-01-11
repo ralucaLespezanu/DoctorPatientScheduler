@@ -12,7 +12,7 @@ public class SparkUtil {
      * to render (build) a response page.
      * Recommended at: http://sparkjava.com/documentation#views-and-templates
      */
-    public static String render(String templatePath, Map<String, Object> model) {
+    public static String render(Map<String, Object> model, String templatePath) {
         return new VelocityTemplateEngine().render(new ModelAndView(model, templatePath));
     }
 }
