@@ -4,46 +4,40 @@ import com.google.gson.Gson;
 
 import static spark.Spark.*;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class DoctorsWebService {
-    private static Map<String, Doctors> doctors = new HashMap<>();
+    private static DoctorsDAO doctorsDAO= new DoctorsDAOImpl();
 
-    public static void main(String[] args) {
+    public List<DoctorsDTO> getAllDoctors() throws SQLException {
+        List<DoctorsDTO> doctorsDTOList= new ArrayList<>();
+        doctorsDTOList.addAll(doctorsDAO.getAll());
+        return doctorsDTOList;
+    }
 
-        doctors.put("Popoescu", new Doctors(1, "Mihai", "Popoescu",
-                "mihaipopescu@email.com", "0744919900", 1));
-        doctors.put("Ionescu", new Doctors(2, "Teodora", "Ionescu",
-                "teodoraionescu@email.com", "0744919901", 1));
+    public Doctors getOneDoctor(String last_name) throws SQLException {
+        DoctorsDTO oneDoctorDTO= doctorsDAO.get(last_name);
+        Doctors doctor= oneDoctorDTO.toDoctors();
+        return doctor;
+    }
+    public Doctors addOneDoctor(String first_name, String last_name, String phone_number, String email, int specialization_id) throws SQLException {
+        DoctorsDTO oneDoctorDTO = doctorsDAO.get(last_name);
+        if (oneDoctorDTO == null) {
+            DoctorsDTO doctorsDTO = new DoctorsDTO(null, first_name, last_name, phone_number, email, specialization_id);
+            doctorsDAO.save(doctorsDTO);
+            DoctorsDTO savedObject = doctorsDAO.get(last_name);
+            return savedObject.toDoctors();
+        } else {
+            throw new RuntimeException("Doctor already exists");
+        }
+    }
 
-        get("/doctors", (request, response) -> {
-            response.type("application/json");
-            return new Gson().toJson(doctors);
-        });
 
-
-        get("/doctor/:last_name", (request, response) -> {
-            response.type("application/json");
-            String last_name = request.params(":last_name");
-            Doctors doctor = doctors.get(last_name);
-            return new Gson().toJson(doctor);
-        });
-
-        post("/doctor/:last_name", (request, response) -> {
-            Gson gson = new Gson();
-            response.type("application/json");
-            String last_name = request.params(":last_name");
-            String body = request.body();
-            Doctors newDoctor = gson.fromJson(body, Doctors.class);
-            if (doctors.containsKey(last_name)) {
-                response.status(400);
-                return gson.toJson(new Message("Bad Request - Doctor already exists!"));
-            }
-            doctors.put(last_name, newDoctor);
-            response.status(200);
-            return gson.toJson(new Message("Doctor added successfully!"));
-        });
+    /*public static void main(String[] args) {
 
         put("/doctor/:last_name", (request, response) -> {
             Gson gson = new Gson();
@@ -73,7 +67,7 @@ public class DoctorsWebService {
             return gson.toJson(new Message("Doctor deleted successfully!"));
         });
 
-    }
+    }*/
 
 }
 

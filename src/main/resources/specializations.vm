@@ -16,12 +16,12 @@
         <td>ID</td>
         <td>DESCRIPTION</td>
     </tr>
-
+    #foreach($specialization in $specializations)
         <tr>
             <td>$specialization.id</td>
-            <td>$specialization.description</td>
+            <td><a href="/specializations/$specialization.description"> $specialization.description</a></td>
         </tr>
-
+    #end
 </table>
 </body>
 </html>

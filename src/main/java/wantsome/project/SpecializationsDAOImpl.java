@@ -4,6 +4,8 @@ import org.sqlite.SQLiteConfig;
 import org.sqlite.SQLiteConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -42,15 +44,15 @@ public class SpecializationsDAOImpl implements SpecializationsDAO {
     }
 
     @Override
-    public SpecializationsDTO get(int id) throws SQLException {
+    public SpecializationsDTO get(String description) throws SQLException {
         SpecializationsDTO result = null;
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
-        String query = "select * from specializations where id= ?";
+        String query = "select * from specializations where description= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, id);
+        preparedStatement.setString(1, description);
 
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
@@ -107,5 +109,28 @@ public class SpecializationsDAOImpl implements SpecializationsDAO {
         if (connection != null) {
             connection.close();
         }
+    }
+
+    @Override
+    public List<SpecializationsDTO> getAll() throws SQLException {
+        List<SpecializationsDTO> result = new ArrayList<>();
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "select * from specializations";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result.add(new SpecializationsDTO(rs.getInt("ID"), rs.getString("DESCRIPTION")));
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+        return result;
     }
 }

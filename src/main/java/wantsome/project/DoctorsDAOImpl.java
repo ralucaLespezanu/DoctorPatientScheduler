@@ -3,6 +3,8 @@ package wantsome.project;
 import org.sqlite.SQLiteConfig;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DoctorsDAOImpl implements DoctorsDAO {
 
@@ -41,15 +43,15 @@ public class DoctorsDAOImpl implements DoctorsDAO {
     }
 
     @Override
-    public DoctorsDTO get(int id) throws SQLException {
+    public DoctorsDTO get(String last_name) throws SQLException {
         DoctorsDTO result = null;
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
-        String query = "select * from doctors where id= ?";
+        String query = "select * from doctors where last_name= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-        preparedStatement.setInt(1, id);
+        preparedStatement.setString(1, last_name);
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
             result = new DoctorsDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
@@ -112,5 +114,30 @@ public class DoctorsDAOImpl implements DoctorsDAO {
         if (connection != null) {
             connection.close();
         }
+    }
+
+    @Override
+    public List<DoctorsDTO> getAll() throws SQLException {
+        List<DoctorsDTO> result = new ArrayList<>();
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "select * from doctors";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result.add(new DoctorsDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
+                    rs.getString("LAST_NAME"), rs.getString("PHONE_NUMBER"),
+                    rs.getString("EMAIL"), rs.getInt("SPECIALIZATION_ID")));
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+        return result;
     }
 }

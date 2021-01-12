@@ -20,16 +20,14 @@
         <td>EMAIL</td>
         <td>SPECIALIZATION ID</td>
     </tr>
-    #foreach($doctor in $doctors)
         <tr>
             <td>$doctor.id</td>
             <td>$doctor.first_name</td>
             <td>$doctor.last_name</td>
             <td>$doctor.phone_number</td>
             <td>$doctor.email</td>
-            <td><a href="/doctors/$doctor.specialization_id"> $doctor.specialization_id</a></td>
+            <td>$doctor.specialization_id</td>
         </tr>
-    #end
 </table>
 </body>
 </html>
