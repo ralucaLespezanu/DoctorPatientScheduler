@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Doctors</title>
+    <title>Patients</title>
     <style>
         table, tr, td {
             border: 1px solid #83A697;
@@ -36,7 +36,7 @@
     </style>
 </head>
 <body>
-<h1> Doctors </h1>
+<h1> Patients </h1>
 <table>
     <tr>
         <td>ID</td>
@@ -44,15 +44,15 @@
         <td>LAST NAME</td>
         <td>PHONE NUMBER</td>
         <td>EMAIL</td>
-        <td>SPECIALIZATION ID</td>
+        <td>BIRTH DATE</td>
     </tr>
     <tr>
-        <td>$doctor.id</td>
-        <td>$doctor.first_name</td>
-        <td>$doctor.last_name</td>
-        <td>$doctor.phone_number</td>
-        <td>$doctor.email</td>
-        <td>$doctor.specialization_id</td>
+        <td>$patient.id</td>
+        <td>$patient.first_name</td>
+        <td>$patient.last_name</td>
+        <td>$patient.phone_number</td>
+        <td>$patient.email</td>
+        <td>$patient.birth_date</td>
     </tr>
 </table>
 </body>

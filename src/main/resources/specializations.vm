@@ -3,9 +3,35 @@
     <title>Specializations</title>
     <style>
         table, tr, td {
-            border: 1px solid coral;
+            border: 1px solid #83A697;
             padding: 10px;
-            width: 100%;
+            width: 75%;
+            text-align: center;
+            color: #7F7F7F;
+
+        }
+
+        table {
+            position: absolute;
+            left: 200px;
+        }
+
+        tr:nth-child(even) {
+            background-color: mintcream;
+        }
+
+        th {
+            border: 1px solid #83A697;
+            padding: 10px;
+            background-color: moccasin;
+            color: #7F7F7F;
+            height: 50px;
+            font-size: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #7F7F7F;
         }
     </style>
 </head>
@@ -13,8 +39,8 @@
 <h1> Specializations </h1>
 <table>
     <tr>
-        <td>ID</td>
-        <td>DESCRIPTION</td>
+        <th>ID</th>
+        <th>DESCRIPTION</th>
     </tr>
     #foreach($specialization in $specializations)
         <tr>

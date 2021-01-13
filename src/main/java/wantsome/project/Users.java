@@ -58,7 +58,7 @@ public class Users {
         if (o == null || getClass() != o.getClass()) return false;
         Users users = (Users) o;
         return id == users.id && Objects.equals(first_name, users.first_name) &&
-                 Objects.equals(last_name, users.last_name) && Objects.equals(password, users.password);
+                Objects.equals(last_name, users.last_name) && Objects.equals(password, users.password);
     }
 
     @Override

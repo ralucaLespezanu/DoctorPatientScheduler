@@ -3,6 +3,8 @@ package wantsome.project;
 import org.sqlite.SQLiteConfig;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UsersDAOImpl implements UsersDAO {
 
@@ -35,7 +37,7 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public UsersDTO get(int id) throws SQLException {
+    public UsersDTO get(String last_name) throws SQLException {
         UsersDTO result = null;
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
@@ -44,7 +46,7 @@ public class UsersDAOImpl implements UsersDAO {
         String query = "SELECT FROM users WHERE ID= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-        preparedStatement.setInt(1, id);
+        preparedStatement.setString(1, last_name);
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
             result = new UsersDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
@@ -104,5 +106,29 @@ public class UsersDAOImpl implements UsersDAO {
         if (connection != null) {
             connection.close();
         }
+    }
+
+    @Override
+    public List<UsersDTO> getAll() throws SQLException {
+        List<UsersDTO> result = new ArrayList<>();
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "SELECT * FROM users ";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result.add(new UsersDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
+                    rs.getString("LAST_NAME"), rs.getString("PASSWORD")));
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+        return result;
     }
 }

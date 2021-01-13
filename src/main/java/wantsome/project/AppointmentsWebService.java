@@ -2,8 +2,11 @@ package wantsome.project;
 
 import com.google.gson.Gson;
 
+import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -11,70 +14,32 @@ import static spark.Spark.*;
 
 public class AppointmentsWebService {
 
-    private static Map<String, Appointments> appointments = new HashMap<>();
+    private static AppointmentsDAO appointmentsDAO = new AppointmentsDAOImpl();
 
-    public static void main(String[] args) {
-        /*
-        de ce pica la popularea mapei ?
+    public List<AppointmentsDTO> getAllAppointments() throws SQLException {
+        List<AppointmentsDTO> appointmentsDTOList = new ArrayList<>();
+        appointmentsDTOList.addAll(appointmentsDAO.getAll());
+        return appointmentsDTOList;
+    }
 
+    public Appointments getOneAppointment(int doctor_id, Timestamp appDate) throws SQLException {
+        AppointmentsDTO oneAppointmentsDTO = appointmentsDAO.get(doctor_id, appDate);
+        Appointments appointment = oneAppointmentsDTO.toAppointments();
+        return appointment;
+    }
 
-        appointments.put("1", new Appointments(1, 2, 7, Timestamp.valueOf("2021-01-10 08:00:00"),
-                Check.valueOf("pending"), "AVC in antecedente", "tratament cu Tertensif"));
-*/
-        get("/appointments", ((request, response) -> {
-            response.type("application/json");
-            return new Gson().toJson(appointments);
-        }));
-
-        get("/appointment/:id", (request, response) -> {
-            response.type("application/json");
-            String id = request.params(":id");
-            Appointments appointment = appointments.get(id);
-            return new Gson().toJson(appointment);
-        });
-
-        post("appointments/:id", (request, response) -> {
-            Gson gson = new Gson();
-            response.type("application/json");
-            String id = request.params(":id");
-            String body = request.body();
-            Appointments newAppointment = gson.fromJson(body, Appointments.class);
-            if (appointments.containsKey(id)) {
-                response.status(400);
-                return gson.toJson(new Message("Bad request- Appointment already exists!"));
-            }
-            appointments.put(id, newAppointment);
-            response.status(200);
-            return gson.toJson(new Message("Appointment added successfully!"));
-        });
-
-        put("/appointment/:id", ((request, response) -> {
-            Gson gson = new Gson();
-            response.type("application/json");
-            String id = request.params(":id");
-            String body = request.body();
-            Appointments newAppointment = gson.fromJson(body, Appointments.class);
-            if (!appointments.containsKey(id)) {
-                response.status(400);
-                return gson.toJson(new Message("Bad request- appointment doesn't exist!"));
-            }
-            appointments.put(id, newAppointment);
-            response.status(200);
-            return gson.toJson(new Message("Appointment added successfully!"));
-        }));
-
-        delete("/appointment/:id", (request, response) -> {
-            Gson gson = new Gson();
-            response.type("application/json");
-            String id = request.params(":/id");
-            if (!appointments.containsKey(id)) {
-                response.status(400);
-                return gson.toJson(new Message("Bad request- appointment doesn't exist!"));
-            }
-            appointments.remove(id);
-            response.status(200);
-            return gson.toJson(new Message("Appointment deleted successfully!"));
-        });
-
+    public Appointments addOneAppointment(int doctor_id, int patient_id,
+                                          Timestamp appDate, Check status, String doctor_notes,
+                                          String patient_notes) throws SQLException {
+        AppointmentsDTO oneAppointmentDTO = appointmentsDAO.get(doctor_id, appDate);
+        if (oneAppointmentDTO == null) {
+            AppointmentsDTO appointmentsDTO = new AppointmentsDTO(null, doctor_id,
+                    patient_id, appDate, status, doctor_notes, patient_notes);
+            appointmentsDAO.save(appointmentsDTO);
+            AppointmentsDTO savedObject = appointmentsDAO.get(doctor_id, appDate);
+            return savedObject.toAppointments();
+        } else {
+            throw new RuntimeException("Appointment already exists!");
+        }
     }
 }

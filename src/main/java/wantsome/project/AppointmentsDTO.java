@@ -14,7 +14,8 @@ public class AppointmentsDTO {
 
 
     public AppointmentsDTO(Integer id, Integer doctor_id, Integer patient_id,
-                           Timestamp appDate, Check status, String doctor_notes, String patient_notes) {
+                           Timestamp appDate, Check status, String doctor_notes,
+                           String patient_notes) {
         this.id = id;
         this.doctor_id = doctor_id;
         this.patient_id = patient_id;

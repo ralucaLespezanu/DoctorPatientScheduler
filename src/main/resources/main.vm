@@ -6,17 +6,18 @@
 
 <body>
 
-    <img src="/logo.png" width="200px">
+<img src="/logo.png" width="200px">
 
-    <h1> Web page example </h1>
+<h1> Web page example </h1>
 
-    <!-- example of using some data set in Velocity model, by Java code -->
-    Time from server: $serverTime <br>
+<!-- example of using some data set in Velocity model, by Java code -->
+Time from server: $serverTime <br>
 
-    <br>
-    <a href="/main"> Refresh page </a> <br>
+<br>
+<a href="/main"> Refresh page </a> <br>
 
 </body>
 </html>
 
-<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
+<div>Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a
+        href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>

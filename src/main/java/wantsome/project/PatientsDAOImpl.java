@@ -3,6 +3,8 @@ package wantsome.project;
 import org.sqlite.SQLiteConfig;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public class PatientsDAOImpl implements PatientsDAO {
@@ -41,16 +43,16 @@ public class PatientsDAOImpl implements PatientsDAO {
     }
 
     @Override
-    public PatientsDTO get(int id) throws SQLException {
+    public PatientsDTO get(String last_name) throws SQLException {
         PatientsDTO result = null;
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
-        String query = "SELECT FROM patients WHERE ID= ?";
+        String query = "SELECT FROM patients WHERE last_name= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
-        preparedStatement.setInt(1, id);
+        preparedStatement.setString(1, last_name);
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
             result = new PatientsDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
@@ -114,5 +116,30 @@ public class PatientsDAOImpl implements PatientsDAO {
         if (connection != null) {
             connection.close();
         }
+    }
+
+    @Override
+    public List<PatientsDTO> getAll() throws SQLException {
+        List<PatientsDTO> result = new ArrayList<>();
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "SELECT * FROM patients";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result.add(new PatientsDTO(rs.getInt("id"), rs.getString("first_name"),
+                    rs.getString("last_name"), rs.getString("phone_number"),
+                    rs.getString("email"), rs.getDate("birth_date")));
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+        return result;
     }
 }

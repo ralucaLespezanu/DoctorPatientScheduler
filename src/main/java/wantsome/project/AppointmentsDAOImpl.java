@@ -7,7 +7,9 @@ import java.io.Reader;
 import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class AppointmentsDAOImpl implements AppointmentsDAO {
 
@@ -45,14 +47,18 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
     }
 
     @Override
-    public AppointmentsDTO get(int id) throws SQLException {
+    public AppointmentsDTO get(int doctor_id, Timestamp appDate) throws SQLException {
         AppointmentsDTO result = null;
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl);
-        String query = "SELECT FROM appointments WHERE id= ?";
+        String query = "SELECT FROM appointments WHERE id= ?, appDate=?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setInt(1, doctor_id);
+        preparedStatement.setTimestamp(2, appDate);
+
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
             result = new AppointmentsDTO(rs.getInt("id"),
@@ -62,7 +68,13 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
                     Check.valueOf(rs.getString("status")),
                     rs.getString("doctor_notes"),
                     rs.getString("patient_notes"));
-        }                                                                                                                                                                     // valoarea e un enum si nu stiu cum sa il aduc;
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
         return result;
     }
 
@@ -74,7 +86,7 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
-        Connection connection = DriverManager.getConnection(databaseUrl);
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
         String query = "UPDATE appointments SET doctor_id=?, patient_id=?, appDate=?, " +
                 " status=?, doctor_notes=?, patient_notes=?";
 
@@ -115,5 +127,34 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
         if (connection != null) {
             connection.close();
         }
+    }
+
+    @Override
+    public List<AppointmentsDTO> getAll() throws SQLException {
+        List<AppointmentsDTO> result = new ArrayList<>();
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "select * from appointments ";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result.add(new AppointmentsDTO(rs.getInt("id"),
+                    rs.getInt("doctor_id"),
+                    rs.getInt("patient_id"),
+                    rs.getTimestamp("appDate"),
+                    Check.valueOf(rs.getString("status")),
+                    rs.getString("doctor_notes"),
+                    rs.getString("patient_notes")));
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+        return result;
     }
 }

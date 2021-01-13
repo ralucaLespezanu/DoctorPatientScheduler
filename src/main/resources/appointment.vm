@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Doctors</title>
+    <title>Appointments</title>
     <style>
         table, tr, td {
             border: 1px solid #83A697;
@@ -36,23 +36,25 @@
     </style>
 </head>
 <body>
-<h1> Doctors </h1>
+<h1> Appointments </h1>
 <table>
     <tr>
         <td>ID</td>
-        <td>FIRST NAME</td>
-        <td>LAST NAME</td>
-        <td>PHONE NUMBER</td>
-        <td>EMAIL</td>
-        <td>SPECIALIZATION ID</td>
+        <td>DOCTOR ID</td>
+        <td>PATIENT ID</td>
+        <td>APP DATE</td>
+        <td>STATUS</td>
+        <td>DOCTOR NOTES</td>
+        <td>PATIENT NOTES</td>
     </tr>
     <tr>
-        <td>$doctor.id</td>
-        <td>$doctor.first_name</td>
-        <td>$doctor.last_name</td>
-        <td>$doctor.phone_number</td>
-        <td>$doctor.email</td>
-        <td>$doctor.specialization_id</td>
+        <td>$appointment.id</td>
+        <td>$appointment.doctor_id</td>
+        <td>$appointment.patient_id</td>
+        <td>$appointment.appDate</td>
+        <td>$appointment.status</td>
+        <td>$appointment.doctor_notes</td>
+        <td>$appointment.patient_notes</td>
     </tr>
 </table>
 </body>

@@ -3,7 +3,10 @@ package wantsome.project;
 
 import com.google.gson.Gson;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -11,68 +14,30 @@ import static spark.Spark.delete;
 
 public class UsersWebService {
 
-    private static Map<String, Users> users = new HashMap<>();
+    private static UsersDAO usersDAO = new UsersDAOImpl();
 
-    public static void main(String[] args) {
-
-        users.put("Popescu", new Users(1, "Mihai", "Popoescu", "popescum"));
-        users.put("Ionescu", new Users(2, "Teodora", "Ionescu", "ionescut"));
-
-        get("/users", (request, response) -> {
-            response.type("application/json");
-            return new Gson().toJson(users);
-        });
-
-
-        get("/user/:last_name", (request, response) -> {
-            response.type("application/json");
-            String last_name = request.params(":last_name");
-            Users user = users.get(last_name);
-            return new Gson().toJson(user);
-        });
-
-        post("/user/:last_name", (request, response) -> {
-            Gson gson = new Gson();
-            response.type("application/json");
-            String last_name = request.params(":last_name");
-            String body = request.body();
-            Users newUser = gson.fromJson(body, Users.class);
-            if (users.containsKey(last_name)) {
-                response.status(400);
-                return gson.toJson(new Message("Bad Request - User already exists!"));
-            }
-            users.put(last_name, newUser);
-            response.status(200);
-            return gson.toJson(new Message("User added successfully!"));
-        });
-
-        put("/user/:last_name", (request, response) -> {
-            Gson gson = new Gson();
-            response.type("application/json");
-            String last_name = request.params(":last_name");
-            String body = request.body();
-            Users newUser = gson.fromJson(body, Users.class);
-            if (!users.containsKey(last_name)) {
-                response.status(400);
-                return gson.toJson(new Message("Bad Request - User doesn't exist!"));
-            }
-            users.put(last_name, newUser);
-            response.status(200);
-            return gson.toJson(new Message("User modified successfully!"));
-        });
-
-        delete("/user/:last_name", (request, response) -> {
-            Gson gson = new Gson();
-            response.type("application/json");
-            String last_name = request.params(":last_name");
-            if (!users.containsKey(last_name)) {
-                response.status(400);
-                return gson.toJson(new Message("Bad Request - User doesn't exist!"));
-            }
-            users.remove(last_name);
-            response.status(200);
-            return gson.toJson(new Message("User deleted successfully!"));
-        });
-
+    public List<UsersDTO> getAllUsers() throws SQLException {
+        List<UsersDTO> allUsersDTO = new ArrayList<>();
+        allUsersDTO.addAll(usersDAO.getAll());
+        return allUsersDTO;
     }
+
+    public Users getOneUser(String last_name) throws SQLException {
+        UsersDTO oneUserDTO = usersDAO.get(last_name);
+        Users user = oneUserDTO.toUsers();
+        return user;
+    }
+
+    public Users addOneUser(String first_name, String last_name, String password) throws SQLException {
+        UsersDTO oneUserDTO = usersDAO.get(last_name);
+        if (oneUserDTO == null) {
+            UsersDTO usersDTO = new UsersDTO(null, first_name, last_name, password);
+            usersDAO.save(usersDTO);
+            UsersDTO savedObject = usersDAO.get(last_name);
+            return savedObject.toUsers();
+        } else {
+            throw new RuntimeException("User already exists");
+        }
+    }
+
 }
