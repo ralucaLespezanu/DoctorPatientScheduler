@@ -33,6 +33,9 @@
             text-align: center;
             color: #7F7F7F;
         }
+        a:link{
+            color: #7F7F7F;
+        }
     </style>
 </head>
 <body>

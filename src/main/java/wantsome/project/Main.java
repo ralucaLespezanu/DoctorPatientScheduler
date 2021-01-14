@@ -69,6 +69,10 @@ public class Main {
         get("/users/:last_name", (req, res) -> getOneUSer(req, res));
         post("/users", (req, res) -> addOneUSer(req, res));
 
+        get("appointmentsMain", (req, res)-> getAppointmentsMain(req, res));
+
+        get("login", (req, res)-> getLogin(req, res));
+
         awaitInitialization();
         System.out.println("\nServer started: http://localhost:4567/main");
     }
@@ -262,5 +266,17 @@ public class Main {
             System.out.println("Unable to add user: " + e.getMessage());
         }
         return render("user.vm", model);
+    }
+
+    private static Object getAppointmentsMain(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("appointmentsMain", new Date().toString());
+        return render("appointmentsMain.vm", model);
+    }
+
+    private static Object getLogin(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("login", new Date().toString());
+        return render("login.vm", model);
     }
 }
