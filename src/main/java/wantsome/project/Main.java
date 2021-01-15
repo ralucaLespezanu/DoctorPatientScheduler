@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static spark.Spark.*;
@@ -64,14 +65,21 @@ public class Main {
         get("/appointments/:doctor_id, appDate", (req, res) -> getOneAPpointment(req, res));
         post("/appointments", (req, res) -> addOneAPpointment(req, res));
 
+        get("appointmentsMain", (req, res) -> getAppointmentsMain(req, res));
+
 
         get("/users", (req, res) -> getAllUSers(req, res));
         get("/users/:last_name", (req, res) -> getOneUSer(req, res));
         post("/users", (req, res) -> addOneUSer(req, res));
 
-        get("appointmentsMain", (req, res)-> getAppointmentsMain(req, res));
 
-        get("login", (req, res)-> getLogin(req, res));
+        get("login", (req, res) -> getLogin(req, res));
+        get("appointmentsForm", (req, res) -> getAppointmentsForm(req, res));
+        get("doctorsForm", (req, res) -> getDoctorsForm(req, res));
+        get("patientsForm", (req, res) -> getPatientsForm(req, res));
+        get("specializationsForm", (req, res) -> getSpecializationsForm(req, res));
+        get("usersForm", (req, res) -> getUsersForm(req, res));
+
 
         awaitInitialization();
         System.out.println("\nServer started: http://localhost:4567/main");
@@ -196,7 +204,10 @@ public class Main {
     private static Object getAllAPpointments(Request req, Response res) {
         Map<String, Object> model = new HashMap<>();
         try {
-            model.put("appointments", appointmentsWebService.getAllAppointments());
+            List<AppointmentsDTO> appointments = appointmentsWebService.getAllAppointments();
+            System.out.println("appointments: " + appointments);
+
+            model.put("appointments", appointments);
         } catch (Exception e) {
             System.out.println("Unable to get appointments: " + e.getMessage());
         }
@@ -278,5 +289,35 @@ public class Main {
         Map<String, Object> model = new HashMap<>();
         model.put("login", new Date().toString());
         return render("login.vm", model);
+    }
+
+    private static Object getAppointmentsForm(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("appointmentsForm", new Date().toString());
+        return render("appointmentsForm.html", model);
+    }
+
+    private static Object getDoctorsForm(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("doctorsForm", new Date().toString());
+        return render("doctorsForm.html", model);
+    }
+
+    private static Object getPatientsForm(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("patientsForm", new Date().toString());
+        return render("patientsForm.html", model);
+    }
+
+    public static Object getSpecializationsForm(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("specializationsForm", new Date().toString());
+        return render("specializationsForm.html", model);
+    }
+
+    public static Object getUsersForm(Request req, Response res) {
+        Map<String, Object> model = new HashMap<>();
+        model.put("usersForm", new Date().toString());
+        return render("usersForm.html", model);
     }
 }

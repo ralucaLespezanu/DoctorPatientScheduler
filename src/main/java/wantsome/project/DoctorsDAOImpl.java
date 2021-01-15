@@ -67,6 +67,8 @@ public class DoctorsDAOImpl implements DoctorsDAO {
         return result;
     }
 
+
+
     @Override
     public DoctorsDTO update(DoctorsDTO doctorsDTO) throws SQLException {
         if (doctorsDTO.getId() == null) {

@@ -10,6 +10,8 @@ public interface UsersDAO {
 
     UsersDTO get(String last_name) throws SQLException;
 
+    UsersDTO getLogin(String last_name, String password) throws SQLException;
+
     UsersDTO update(UsersDTO usersDTO) throws SQLException;
 
     void delete(UsersDTO usersDTO) throws SQLException;

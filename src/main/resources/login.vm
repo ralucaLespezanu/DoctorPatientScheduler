@@ -2,13 +2,13 @@
 <head>
     <style>
         body{
-            background-image: url("https://www.freepik.com/free-vector/healthcare-background-with-medical-symbols-hexagonal-frame_9191758.htm#page=1&query=medical%20background&position=0");
+            background-color: #EBFFF3;
         }
         h1{
             color: coral;
             text-align: center;
             font-size: xxx-large;
-            margin-top: 100px;
+            margin-top: 120px;
 
         }
         form{
@@ -21,12 +21,13 @@
 </head>
 <body>
     <h1>Healthcare Clinic</h1>
-    <form action="/action_page.php" method="get" target="_blank">
-        <label for="fname">User:</label>
-        <input type="text" id="fname" name="fname"><br><br>
-        <label for="lname">Password:</label>
-        <input type="text" id="lname" name="lname"><br><br>
+    <form  method="get" >
+        <label >User:</label>
+        <input type="text" placeholder="Enter Username" name="last_name"><br><br>
+        <label for="password">Password:</label>
+        <input type="text" placeholder="Enter password" name="password"><br><br>
         <input type="submit" value="Submit">
     </form>
+    </div>
 </body>
 </html>

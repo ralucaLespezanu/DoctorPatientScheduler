@@ -43,7 +43,7 @@ public class UsersDAOImpl implements UsersDAO {
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
-        String query = "SELECT FROM users WHERE ID= ?";
+        String query = "SELECT FROM users WHERE last_name= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1, last_name);
@@ -60,6 +60,37 @@ public class UsersDAOImpl implements UsersDAO {
         }
         return result;
     }
+
+    @Override
+    public UsersDTO getLogin(String last_name, String password) throws SQLException {
+        UsersDTO user = null;
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "select * from users where last_name = ? and password = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+
+        preparedStatement.setString(1, last_name);
+        preparedStatement.setString(2, password);
+
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            user = new UsersDTO(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("password"));
+        }
+
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+
+        if (connection != null) {
+            connection.close();
+        }
+
+        return user;
+    }
+
 
     @Override
     public UsersDTO update(UsersDTO usersDTO) throws SQLException {

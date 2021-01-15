@@ -201,10 +201,7 @@
                 padding-right: 16px;
             }
 
-            .menu__item--active {
-                border-left: 4px solid red;
-                box-shadow: inset 10px 0px 17px -13px red;
-            }
+
         }
 
         .copyright {
@@ -259,13 +256,7 @@
             border-bottom-left-radius: 0;
         }
 
-        .toggle__option--selected {
-            border-color: white;
-            background-color: white;
-            color: red;
-            font-weight: 500;
-            box-shadow: 1px 2px 30px -5px red;
-        }
+
     </style>
 </head>
 <body></body>
@@ -274,7 +265,7 @@
         <div class="toolbar">
             <div class="toggle">
                 <div class="toggle__option">week</div>
-                <div class="toggle__option toggle__option--selected">month</div>
+                <div class="toggle__option ">month</div>
             </div>
             <div class="current-month">January 2021</div>
             <div class="search-input">
@@ -343,28 +334,32 @@
         <div class="logo">logo</div>
         <div class="avatar">
             <div class="avatar__img">
-                <img src="https://picsum.photos/70" alt="avatar">
+                <img src="avatar.jpg" alt="avatar">
             </div>
             <div class="avatar__name">Andrei Vulpe</div>
         </div>
         <nav class="menu">
-            <a class="menu__item" href="#">
+            <a class="menu__item" href="appointments">
+                <i class="menu__icon fa fa-list"></i>
+                <span class="menu__text">Appointments</span>
+            </a>
+            <a class="menu__item" href="doctors">
                 <i class="menu__icon fa fa-home"></i>
                 <span class="menu__text">doctors</span>
             </a>
-            <a class="menu__item" href="#">
+            <a class="menu__item" href="patients">
                 <i class="menu__icon fa fa-envelope"></i>
                 <span class="menu__text">patients</span>
             </a>
-            <a class="menu__item" href="#">
+            <a class="menu__item" href="specializations">
                 <i class="menu__icon fa fa-list"></i>
-                <span class="menu__text">Specialization</span>
+                <span class="menu__text">Specializations</span>
             </a>
-            <a class="menu__item" href="#">
+            <a class="menu__item" href="users">
                 <i class="menu__icon fa fa-bar-chart"></i>
                 <span class="menu__text">users</span>
             </a>
-            <a class="menu__item menu__item--active" href="#">
+            <a class="menu__item " href="#">
                 <i class="menu__icon fa fa-calendar"></i>
                 <span class="menu__text">calendar</span>
             </a>

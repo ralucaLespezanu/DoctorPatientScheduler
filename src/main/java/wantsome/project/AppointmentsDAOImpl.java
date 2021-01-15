@@ -88,7 +88,7 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
 
         Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
         String query = "UPDATE appointments SET doctor_id=?, patient_id=?, appDate=?, " +
-                " status=?, doctor_notes=?, patient_notes=?";
+                "  status=?, doctor_notes=?, patient_notes=? ";
 
         PreparedStatement preparedStatement = connection.prepareStatement(query);
         preparedStatement.setInt(1, appointmentsDTO.getDoctor_id());
@@ -144,7 +144,7 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
             result.add(new AppointmentsDTO(rs.getInt("id"),
                     rs.getInt("doctor_id"),
                     rs.getInt("patient_id"),
-                    rs.getTimestamp("appDate"),
+                    null, //rs.getTimestamp("appDate"),
                     Check.valueOf(rs.getString("status")),
                     rs.getString("doctor_notes"),
                     rs.getString("patient_notes")));

@@ -14,6 +14,7 @@
         table {
             position: absolute;
             left: 200px;
+            top: 75px;
         }
 
         tr:nth-child(even) {
@@ -30,8 +31,22 @@
         }
 
         h1 {
-            text-align: center;
+            position: fixed;
+            left: 200px;
             color: #7F7F7F;
+        }
+        .add {
+            pozition: fixed;
+            background-color: cornsilk;
+            border: none;
+            color:#7F7F7F;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-left: 700px;
+
         }
         a:link{
             color: #7F7F7F;
@@ -39,7 +54,8 @@
     </style>
 </head>
 <body>
-<h1> Specializations </h1>
+<h1> Specializations<a href="specializationsForm" class="add">Add new specialization</a>
+</h1>
 <table>
     <tr>
         <th>ID</th>

@@ -55,9 +55,9 @@ public class PatientsDAOImpl implements PatientsDAO {
         preparedStatement.setString(1, last_name);
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
-            result = new PatientsDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
-                    rs.getString("LAST_NAME"), rs.getString("PHONE_NUMBER"),
-                    rs.getString("EMAIL"), rs.getDate("BIRTH_DATE"));
+            result = new PatientsDTO(rs.getInt("id"), rs.getString("first_name"),
+                    rs.getString("last_name"), rs.getString("phone_number"),
+                    rs.getString("email"), rs.getDate("birth_date"));
         }
         if (preparedStatement != null) {
             preparedStatement.close();

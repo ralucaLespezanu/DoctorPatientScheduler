@@ -52,7 +52,7 @@
         <td>$doctor.last_name</td>
         <td>$doctor.phone_number</td>
         <td>$doctor.email</td>
-        <td>$doctor.specialization_id</td>
+        <td>$doctor.specializations_id</td>
     </tr>
 </table>
 </body>

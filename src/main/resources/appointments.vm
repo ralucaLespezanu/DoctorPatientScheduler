@@ -13,6 +13,7 @@
 
         table {
             position: absolute;
+            top: 75px;
             left: 200px;
         }
 
@@ -30,13 +31,28 @@
         }
 
         h1 {
-            text-align: center;
+            position: fixed;
+            left: 200px;
             color: #7F7F7F;
+        }
+        .add {
+            pozition: fixed;
+            background-color: cornsilk;
+            border: none;
+            color:#7F7F7F;
+            padding: 10px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-left: 750px;
+
         }
     </style>
 </head>
 <body>
-<h1> Appointments </h1>
+<h1> Appointments<a href="appointmentsForm" class="add">Add new appointment</a>
+</h1>
 <table>
     <tr>
         <td>ID</td>
