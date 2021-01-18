@@ -9,7 +9,9 @@ public class SpecializationsDTO {
         this.id = id;
         this.description = description;
     }
-
+    public SpecializationsDTO( String description) {
+        this.description = description;
+    }
     public SpecializationsDTO(Specializations specializations) {
         this.id = specializations.getId();
         this.description = specializations.getDescription();

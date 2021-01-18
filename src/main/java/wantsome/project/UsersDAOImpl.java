@@ -23,11 +23,9 @@ public class UsersDAOImpl implements UsersDAO {
         preparedStatement.setString(2, usersDTO.getLast_name());
         preparedStatement.setString(3, usersDTO.getPassword());
 
-        ResultSet rs = preparedStatement.executeQuery();
-        while (rs.next()) {
-            int IDinserted = rs.getInt("id");
-            System.out.println("User with id created: " + IDinserted);
-        }
+
+        preparedStatement.execute();
+
         if (preparedStatement != null) {
             preparedStatement.close();
         }
@@ -43,13 +41,13 @@ public class UsersDAOImpl implements UsersDAO {
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
-        String query = "SELECT FROM users WHERE last_name= ?";
+        String query = "SELECT * FROM users WHERE last_name= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1, last_name);
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
-            result = new UsersDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
+            result = new UsersDTO( rs.getInt("id"),  rs.getString("FIRST_NAME"),
                     rs.getString("LAST_NAME"), rs.getString("PASSWORD"));
         }
         if (preparedStatement != null) {
@@ -62,33 +60,55 @@ public class UsersDAOImpl implements UsersDAO {
     }
 
     @Override
-    public UsersDTO getLogin(String last_name, String password) throws SQLException {
-        UsersDTO user = null;
+    public UsersDTO get(String last_name, String password) throws SQLException {
+        UsersDTO result = null;
         SQLiteConfig config = new SQLiteConfig();
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
-        String query = "select * from users where last_name = ? and password = ?";
+        String query = "SELECT * FROM users WHERE last_name= ? AND password=?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
-
 
         preparedStatement.setString(1, last_name);
         preparedStatement.setString(2, password);
-
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
-            user = new UsersDTO(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"), rs.getString("password"));
+            result = new UsersDTO(rs.getInt("id"),   rs.getString("FIRST_NAME"),
+                    rs.getString("LAST_NAME"), rs.getString("PASSWORD"));
         }
-
         if (preparedStatement != null) {
             preparedStatement.close();
         }
-
         if (connection != null) {
             connection.close();
         }
+        return result;
+    }
 
-        return user;
+    @Override
+    public UsersDTO get(String first_name, String last_name, String password) throws SQLException {
+        UsersDTO result = null;
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "SELECT * FROM users WHERE first_name=? AND last_name= ? AND password=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, first_name);
+        preparedStatement.setString(2, last_name);
+        preparedStatement.setString(3, password);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result = new UsersDTO(rs.getInt("id"),   rs.getString("FIRST_NAME"),
+                    rs.getString("LAST_NAME"), rs.getString("PASSWORD"));
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+        return result;
     }
 
 
@@ -151,7 +171,7 @@ public class UsersDAOImpl implements UsersDAO {
 
         ResultSet rs = preparedStatement.executeQuery();
         while (rs.next()) {
-            result.add(new UsersDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
+            result.add(new UsersDTO(rs.getInt("id"),  rs.getString("FIRST_NAME"),
                     rs.getString("LAST_NAME"), rs.getString("PASSWORD")));
         }
         if (preparedStatement != null) {

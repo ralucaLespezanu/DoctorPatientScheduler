@@ -9,7 +9,7 @@ public class Users {
     private String last_name;
     private String password;
 
-    public Users(Integer id, String first_name, String last_name, String password) {
+    public Users( int id, String first_name, String last_name, String password) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;

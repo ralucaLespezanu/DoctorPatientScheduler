@@ -17,7 +17,14 @@ public class DoctorsDTO {
         this.email = doctors.getEmail();
         this.specializations_id = doctors.getSpecialization_id();
     }
-
+    public DoctorsDTO( String first_name, String last_name,
+                    String phone_number, String email, int specialization_id) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.phone_number = phone_number;
+        this.email = email;
+        this.specializations_id = specialization_id;
+    }
 
     public DoctorsDTO(Integer id, String first_name, String last_name, String phone_number,
                       String email, int specializations_id) {

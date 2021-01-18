@@ -9,6 +9,8 @@ public interface DoctorsDAO {
 
     DoctorsDTO get(String last_name) throws SQLException;
 
+    DoctorsDTO get(String first_name, String last_name) throws SQLException;
+
     DoctorsDTO update(DoctorsDTO doctorsDTO) throws SQLException;
 
     void delete(DoctorsDTO doctorsDTO) throws SQLException;

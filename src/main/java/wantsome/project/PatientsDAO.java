@@ -10,6 +10,8 @@ public interface PatientsDAO {
 
     PatientsDTO get(String last_name) throws SQLException;
 
+    PatientsDTO get(String first_name, String last_name, String birth_date) throws SQLException;
+
     PatientsDTO update(PatientsDTO patientsDTO) throws SQLException;
 
     void delete(PatientsDTO patientsDTO) throws SQLException;

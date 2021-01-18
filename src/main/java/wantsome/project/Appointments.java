@@ -19,6 +19,17 @@ public class Appointments {
     public Appointments() {
     }
 
+    public Appointments( Integer doctor_id, Integer patient_id,
+                        Timestamp appDate, Check status, String doctor_notes,
+                        String patient_notes) {
+        this.doctor_id = doctor_id;
+        this.patient_id = patient_id;
+        this.appDate = appDate;
+        this.status = status;
+        this.doctor_notes = doctor_notes;
+        this.patient_notes = patient_notes;
+    }
+
     public Appointments(Integer id, Integer doctor_id, Integer patient_id,
                         Timestamp appDate, Check status, String doctor_notes,
                         String patient_notes) {

@@ -33,11 +33,8 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
         preparedStatement.setString(5, appointmentsDTO.getDoctor_notes());
         preparedStatement.setString(6, appointmentsDTO.getPatient_notes());
 
-        ResultSet rs = preparedStatement.executeQuery();
-        while (rs.next()) {
-            int IDinserted = rs.getInt("id");
-            System.out.println("Appointment with id created: " + IDinserted);
-        }
+        preparedStatement.execute();
+
         if (preparedStatement != null) {
             preparedStatement.close();
         }
@@ -53,7 +50,7 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl);
-        String query = "SELECT FROM appointments WHERE id= ?, appDate=?";
+        String query = "SELECT FROM appointments WHERE id= ? AND appDate=?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setInt(1, doctor_id);
@@ -144,7 +141,7 @@ public class AppointmentsDAOImpl implements AppointmentsDAO {
             result.add(new AppointmentsDTO(rs.getInt("id"),
                     rs.getInt("doctor_id"),
                     rs.getInt("patient_id"),
-                    null, //rs.getTimestamp("appDate"),
+                    Timestamp.valueOf(rs.getString("appDate")),
                     Check.valueOf(rs.getString("status")),
                     rs.getString("doctor_notes"),
                     rs.getString("patient_notes")));

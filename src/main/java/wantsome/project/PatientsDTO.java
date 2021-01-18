@@ -21,6 +21,15 @@ public class PatientsDTO {
         this.email = email;
         this.birth_date = birth_date;
     }
+    public PatientsDTO( String first_name, String last_name, String phone_number,
+                     String email, Date birth_date) {
+
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.phone_number = phone_number;
+        this.email = email;
+        this.birth_date = birth_date;
+    }
 
     public PatientsDTO(Patients patients) {
         this.id = patients.getId();

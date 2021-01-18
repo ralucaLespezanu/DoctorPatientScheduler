@@ -18,25 +18,25 @@
         }
 
         tr:nth-child(even) {
-            background-color: moccasin;
+            background-color: mintcream;
         }
 
         th {
             border: 1px solid #83A697;
             padding: 10px;
-            background-color: mediumturquoise;
+            background-color: lavender;
             color: #7F7F7F;
             height: 50px;
             font-size: 20px;
         }
 
         h1 {
-            position: fixed;
+            position: absolute;
             left: 200px;
             color: #7F7F7F;
         }
         .add {
-            pozition: fixed;
+            pozition: absolute;
             background-color: cornsilk;
             border: none;
             color:#7F7F7F;
@@ -55,9 +55,9 @@
 </h1>
 <table>
     <tr>
-        <td>ID</td>
-        <td>FIRST NAME</td>
-        <td>LAST NAME</td>
+        <th>ID</th>
+        <th>FIRST NAME</th>
+        <th>LAST NAME</th>
 
     </tr>
     #foreach($user in $users)

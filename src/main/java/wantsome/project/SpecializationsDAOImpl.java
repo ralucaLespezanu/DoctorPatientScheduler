@@ -27,11 +27,7 @@ public class SpecializationsDAOImpl implements SpecializationsDAO {
 
         preparedStatement.setString(1, specializationsDTO.getDescription());
 
-        ResultSet rs = preparedStatement.executeQuery();
-        if (rs.next()) {
-            int idInserted = rs.getInt("ID");
-            System.out.println("specialization with id created: " + idInserted);
-        }
+       preparedStatement.execute();
 
         if (preparedStatement != null) {
             preparedStatement.close();

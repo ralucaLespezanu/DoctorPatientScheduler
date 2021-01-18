@@ -25,6 +25,15 @@ public class Doctors {
         this.specialization_id = specialization_id;
     }
 
+    public Doctors( String first_name, String last_name,
+                   String phone_number, String email, int specialization_id) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.phone_number = phone_number;
+        this.email = email;
+        this.specialization_id = specialization_id;
+    }
+
     public Integer getId() {
         return id;
     }

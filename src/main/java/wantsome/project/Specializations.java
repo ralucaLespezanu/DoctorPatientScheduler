@@ -16,6 +16,10 @@ public class Specializations {
         this.description = description;
     }
 
+    public Specializations( String description){
+        this.description = description;
+    }
+
     public Integer getId() {
         return id;
     }

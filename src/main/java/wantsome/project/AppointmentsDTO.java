@@ -24,6 +24,16 @@ public class AppointmentsDTO {
         this.doctor_notes = doctor_notes;
         this.patient_notes = patient_notes;
     }
+    public AppointmentsDTO( Integer doctor_id, Integer patient_id,
+                           Timestamp appDate, Check status, String doctor_notes,
+                           String patient_notes) {
+        this.doctor_id = doctor_id;
+        this.patient_id = patient_id;
+        this.appDate = appDate;
+        this.status = status;
+        this.doctor_notes = doctor_notes;
+        this.patient_notes = patient_notes;
+    }
 
     public AppointmentsDTO(Appointments appointments) {
         this.id = appointments.getId();

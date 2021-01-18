@@ -27,11 +27,8 @@ public class DoctorsDAOImpl implements DoctorsDAO {
         preparedStatement.setString(3, doctorsDTO.getPhone_number());
         preparedStatement.setString(4, doctorsDTO.getEmail());
         preparedStatement.setInt(5, doctorsDTO.getSpecializations_id());
-        ResultSet rs = preparedStatement.executeQuery();
-        if (rs.next()) {
-            int idInserted = rs.getInt("ID");
-            System.out.println("doctor with id created: " + idInserted);
-        }
+        preparedStatement.execute();
+
 
         if (preparedStatement != null) {
             preparedStatement.close();
@@ -67,6 +64,31 @@ public class DoctorsDAOImpl implements DoctorsDAO {
         return result;
     }
 
+    @Override
+    public DoctorsDTO get(String first_name, String last_name) throws SQLException {
+        DoctorsDTO result = null;
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "select * from doctors where first_name=? and last_name= ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, first_name);
+        preparedStatement.setString(2, last_name);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result = new DoctorsDTO(rs.getInt("ID"), rs.getString("FIRST_NAME"),
+                    rs.getString("LAST_NAME"), rs.getString("PHONE_NUMBER"),
+                    rs.getString("EMAIL"), rs.getInt("SPECIALIZATION_ID"));
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+        return result;
+    }
 
 
     @Override

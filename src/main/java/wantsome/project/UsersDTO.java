@@ -7,13 +7,18 @@ public class UsersDTO {
     private String last_name;
     private String password;
 
-    public UsersDTO(Integer id, String first_name, String last_name, String password) {
+    public UsersDTO( Integer id, String first_name, String last_name, String password) {
         this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
     }
 
+    public UsersDTO(  String first_name, String last_name, String password) {
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.password = password;
+    }
     public UsersDTO(Users users) {
         this.id = users.getId();
         this.first_name = users.getFirst_name();

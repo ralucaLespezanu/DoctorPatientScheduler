@@ -151,8 +151,8 @@ INSERT INTO patients (first_name, last_name, phone_number, email, birth_date) VA
 
 INSERT INTO users (first_name, last_name, password) VALUES('Mihai', 'Popoescu', 'popescum');
 INSERT INTO users (first_name, last_name, password) VALUES('Teodora', 'Ionescu', 'ionescut');
-INSERT INTO users (first_name, last_name, password) VALUES('Andrei', 'Vulpe', 'andreivulpea');
-INSERT INTO users (first_name, last_name, password) VALUES('Madalina', 'Coltescu', 'coltescue');
+INSERT INTO users (first_name, last_name, password) VALUES('Andrei', 'Vulpe', 'vulpea');
+INSERT INTO users (first_name, last_name, password) VALUES('Madalina', 'Coltescu', 'coltescum');
 INSERT INTO users (first_name, last_name, password) VALUES('Eduard', 'Popovici', 'popovicie');
 INSERT INTO users (first_name, last_name, password) VALUES('Maria', 'Esca', 'escam');
 INSERT INTO users (first_name, last_name, password) VALUES('Ionut', 'Dumbrava', 'dumbravai');
@@ -193,12 +193,12 @@ INSERT INTO users (first_name, last_name, password) VALUES('Eugen', 'Ungureanu',
 
 
 
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(2,7,'2021-01-10 08:00:00', 'pending', 'AVC in antecedente');
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(2,9,'2021-01-10 08:30:00', 'pending', 'hipertensiune arteriala');
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(2,1,'2021-01-10 09:00:00', 'pending', 'aritmie');
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(2,5,'2021-01-10 09:30:00', 'pending', 'hipercolesterolemie');
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(2,12,'2021-01-10 10:00:00', 'pending', 'hipertensiune arteriala');
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(4,15,'2021-01-10 08:00:00', 'pending', 'ulcer gastric');
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(4,17,'2021-01-10 08:30:00', 'pending', 'helicobacter pilory');
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(4,19,'2021-01-10 09:00:00', 'pending', 'colon iritabil');
-INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes) VALUES(4,21,'2021-01-10 09:30:00', 'pending', 'ulcer gastric');
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(2,7,'2021-01-10 08:00:00', 'pending', 'AVC in antecedente', 'unu');
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(2,9,'2021-01-10 08:30:00', 'pending', 'hipertensiune arteriala', 'doi' );
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(2,1,'2021-01-10 09:00:00', 'pending', 'aritmie', 'trei');
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(2,5,'2021-01-10 09:30:00', 'pending', 'hipercolesterolemie', 'patru');
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(2,12,'2021-01-10 10:00:00', 'pending', 'hipertensiune arteriala', 'cinci');
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(4,15,'2021-01-10 08:00:00', 'pending', 'ulcer gastric', 'sase');
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(4,17,'2021-01-10 08:30:00', 'pending', 'helicobacter pilory', 'sapte');
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(4,19,'2021-01-10 09:00:00', 'pending', 'colon iritabil', 'opt');
+INSERT INTO appointments (doctor_id, patient_id, appDate, status, doctor_notes, patient_notes) VALUES(4,21,'2021-01-10 09:30:00', 'pending', 'ulcer gastric', 'noua');

@@ -291,11 +291,12 @@
                 <div class="calendar__day day">5</div>
                 <div class="calendar__day day">6</div>
                 <div class="calendar__day day">7</div>
+
             </div>
             <div class="calendar__week">
                 <div class="calendar__day day">8</div>
                 <div class="calendar__day day">9</div>
-                <div class="calendar__day day">10</div>
+                <div class="calendar__day day">>10</div>
                 <div class="calendar__day day">11</div>
                 <div class="calendar__day day">12</div>
                 <div class="calendar__day day">13</div>
@@ -336,7 +337,7 @@
             <div class="avatar__img">
                 <img src="avatar.jpg" alt="avatar">
             </div>
-            <div class="avatar__name">Andrei Vulpe</div>
+            <div class="avatar__name"></div>
         </div>
         <nav class="menu">
             <a class="menu__item" href="appointments">

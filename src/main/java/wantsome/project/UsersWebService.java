@@ -2,6 +2,8 @@ package wantsome.project;
 
 
 import com.google.gson.Gson;
+import spark.Request;
+import spark.Response;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -27,18 +29,4 @@ public class UsersWebService {
         Users user = oneUserDTO.toUsers();
         return user;
     }
-
-    public Users addOneUser(String first_name, String last_name, String password) throws SQLException {
-        UsersDTO oneUserDTO = usersDAO.get(last_name);
-        if (oneUserDTO == null) {
-            UsersDTO usersDTO = new UsersDTO(null, first_name, last_name, password);
-            usersDAO.save(usersDTO);
-            UsersDTO savedObject = usersDAO.get(last_name);
-            return savedObject.toUsers();
-        } else {
-            throw new RuntimeException("User already exists");
-        }
-    }
-
-
 }

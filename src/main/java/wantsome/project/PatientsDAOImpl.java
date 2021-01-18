@@ -29,11 +29,7 @@ public class PatientsDAOImpl implements PatientsDAO {
         preparedStatement.setString(4, patientsDTO.getEmail());
         preparedStatement.setDate(5, patientsDTO.getBirth_date());
 
-        ResultSet rs = preparedStatement.executeQuery();
-        while (rs.next()) {
-            int IDinserted = rs.getInt("ID");
-            System.out.println("Patient with ID created: " + IDinserted);
-        }
+        preparedStatement.execute();
         if (preparedStatement != null) {
             preparedStatement.close();
         }
@@ -49,7 +45,7 @@ public class PatientsDAOImpl implements PatientsDAO {
         config.enforceForeignKeys(true);
 
         Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
-        String query = "SELECT FROM patients WHERE last_name= ?";
+        String query = "SELECT * FROM patients WHERE last_name= ?";
         PreparedStatement preparedStatement = connection.prepareStatement(query);
 
         preparedStatement.setString(1, last_name);
@@ -57,7 +53,37 @@ public class PatientsDAOImpl implements PatientsDAO {
         while (rs.next()) {
             result = new PatientsDTO(rs.getInt("id"), rs.getString("first_name"),
                     rs.getString("last_name"), rs.getString("phone_number"),
-                    rs.getString("email"), rs.getDate("birth_date"));
+                    rs.getString("email"), null//Date.valueOf(rs.getString("birth_date"))
+            );
+        }
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+        if (connection != null) {
+            connection.close();
+        }
+        return result;
+    }
+
+    @Override
+    public PatientsDTO get(String first_name, String last_name, String birth_date) throws SQLException {
+        PatientsDTO result = null;
+        SQLiteConfig config = new SQLiteConfig();
+        config.enforceForeignKeys(true);
+
+        Connection connection = DriverManager.getConnection(databaseUrl, config.toProperties());
+        String query = "SELECT * FROM patients WHERE first_name=? AND last_name= ? AND birth_date=?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+        preparedStatement.setString(1, first_name);
+        preparedStatement.setString(2, last_name);
+        preparedStatement.setString(3, birth_date);
+        ResultSet rs = preparedStatement.executeQuery();
+        while (rs.next()) {
+            result = new PatientsDTO(rs.getInt("id"), rs.getString("first_name"),
+                    rs.getString("last_name"), rs.getString("phone_number"),
+                    rs.getString("email"), null//Date.valueOf(rs.getString("birth_date"))
+            );
         }
         if (preparedStatement != null) {
             preparedStatement.close();
@@ -132,7 +158,8 @@ public class PatientsDAOImpl implements PatientsDAO {
         while (rs.next()) {
             result.add(new PatientsDTO(rs.getInt("id"), rs.getString("first_name"),
                     rs.getString("last_name"), rs.getString("phone_number"),
-                    rs.getString("email"), rs.getDate("birth_date")));
+                    rs.getString("email"), null//Date.valueOf(rs.getString("birth_date"))
+            ));
         }
         if (preparedStatement != null) {
             preparedStatement.close();

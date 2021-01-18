@@ -24,19 +24,19 @@
         th {
             border: 1px solid #83A697;
             padding: 10px;
-            background-color: moccasin;
+            background-color: lavender;
             color: #7F7F7F;
             height: 50px;
             font-size: 20px;
         }
 
         h1 {
-            position: fixed;
+            position: absolute;
             left: 200px;
             color: #7F7F7F;
         }
         .add {
-            pozition: fixed;
+            pozition: absolute;
             background-color: cornsilk;
             border: none;
             color:#7F7F7F;
@@ -55,12 +55,12 @@
 </h1>
 <table>
     <tr>
-        <td>ID</td>
-        <td>FIRST_NAME</td>
-        <td>LAST_NAME</td>
-        <td>PHONE_NUMBER</td>
-        <td>EMAIL</td>
-        <td>BIRTH_DATE</td>
+        <th>ID</th>
+        <th>FIRST_NAME</th>
+        <th>LAST_NAME</th>
+        <th>PHONE_NUMBER</th>
+        <th>EMAIL</th>
+        <th>BIRTH_DATE</th>
     </tr>
     #foreach($patient in $patients)
         <tr>

@@ -4,12 +4,10 @@ import com.google.gson.Gson;
 import spark.Request;
 import spark.Response;
 
+import java.security.IdentityScope;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static spark.Spark.*;
 import static wantsome.project.web.SparkUtil.render;
@@ -30,16 +28,27 @@ public class Main {
 
     private static UsersWebService usersWebService = new UsersWebService();
 
-    public static void main(String[] args) {
-        setup();
-        configureRoutesAndStart();
+    private static UsersDAO usersDAO= new UsersDAOImpl();
+
+    private static AppointmentsDAO appointmentsDAO= new AppointmentsDAOImpl();
+
+    private static DoctorsDAO doctorsDAO= new DoctorsDAOImpl();
+
+    private static PatientsDAO patientsDAO= new PatientsDAOImpl();
+
+    private static SpecializationsDAO specializationsDAO= new SpecializationsDAOImpl();
+
+    public static void main(String[] args){
+       setup();
+       configureRoutesAndStart();
     }
 
     private static void setup() {
         //create and configure all needed resources (like db tables, sample data, etc)
     }
 
-    private static void configureRoutesAndStart() {
+    private static void configureRoutesAndStart()  {
+
         staticFileLocation("public");
 
         //configure all routes
@@ -49,28 +58,28 @@ public class Main {
 
         get("/specializations/:description", (req, res) -> getOneSPecialization(req, res));
 
-        post("/specializations", (req, res) -> addOneSPecialization(req, res));
+        post("/specializationsForm", (req, res) -> addOneSPecialization(req, res));
 
 
         get("/doctors", (req, res) -> getAllDOctors(req, res));
         get("/doctors/:last_name", (req, res) -> getOneDOctor(req, res));
-        post("/doctors", (req, res) -> addOneDOctor(req, res));
+        post("/doctorsForm", (req, res) -> addOneDOctor(req, res));
 
         get("/patients", (req, res) -> getAllPAtients(req, res));
         get("/patients/:last_name", (req, res) -> getOnePAtient(req, res));
-        post("/patients", (req, res) -> addOnePAtient(req, res));
+        post("/patientsForm", (req, res) -> addOnePAtient(req, res));
 
 
-        get("/appointments", (req, res) -> getAllAPpointments(req, res));
-        get("/appointments/:doctor_id, appDate", (req, res) -> getOneAPpointment(req, res));
-        post("/appointments", (req, res) -> addOneAPpointment(req, res));
+        get("appointments", (req, res) -> getAllAPpointments(req, res));
+        get("appointments/:doctor_id, appDate", (req, res) -> getOneAPpointment(req, res));
+        post("appointmentsForm", (req, res) -> addOneAPpointment(req, res));
 
         get("appointmentsMain", (req, res) -> getAppointmentsMain(req, res));
 
 
         get("/users", (req, res) -> getAllUSers(req, res));
         get("/users/:last_name", (req, res) -> getOneUSer(req, res));
-        post("/users", (req, res) -> addOneUSer(req, res));
+        post("/usersForm", (req, res) -> addOneUSer(req, res));
 
 
         get("login", (req, res) -> getLogin(req, res));
@@ -79,6 +88,10 @@ public class Main {
         get("patientsForm", (req, res) -> getPatientsForm(req, res));
         get("specializationsForm", (req, res) -> getSpecializationsForm(req, res));
         get("usersForm", (req, res) -> getUsersForm(req, res));
+
+
+
+        post("login", (req, res) -> getLOgin(req, res));
 
 
         awaitInitialization();
@@ -106,20 +119,22 @@ public class Main {
         return render("doctor.vm", model);
     }
 
-    private static Object addOneDOctor(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        String first_name = req.params("first_name");
-        String last_name = req.params("last_name");
-        String phone_number = req.params("phone_number");
-        String email = req.params("email");
-        String specialization_id = req.params("specialization_id");
-        try {
-            model.put("doctor", doctorsWebService.addOneDoctor(first_name, last_name,
-                    phone_number, email, Integer.valueOf(specialization_id)));
-        } catch (Exception e) {
-            System.out.println("Unable to add doctor: " + e.getMessage());
+    private static Object addOneDOctor(Request req, Response res) throws SQLException {
+        String first_name = req.queryParams("first_name");
+        String last_name = req.queryParams("last_name");
+        String phone_number = req.queryParams("phone_number");
+        String email = req.queryParams("email");
+        String specializations_id = req.queryParams("specializations_id");
+        DoctorsDTO oneDoctorDTO= doctorsDAO.get(first_name, last_name);
+        String content = "";
+        if (oneDoctorDTO == null) {
+            DoctorsDTO doctorsDTO = new DoctorsDTO(first_name, last_name, phone_number, email, Integer.valueOf(specializations_id));
+            doctorsDAO.save(doctorsDTO);
+            res.redirect("/doctors/:last_name");
+        } else {
+            content = "doctor already exists";
         }
-        return render("doctor.vm", model);
+        return content + "<br/><a href='doctorsForm'>try again</a>";
     }
 
     private static Object getAllPAtients(Request req, Response res) {
@@ -145,20 +160,22 @@ public class Main {
         return render("patient.vm", model);
     }
 
-    private static Object addOnePAtient(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        String first_name = req.params("first_name");
-        String last_name = req.params("last_name");
-        String phone_number = req.params("phone_number");
-        String email = req.params("email");
-        String birth_date = req.params("birth_date");
-        try {
-            model.put("patient", patientsWebService.addOnePatient(first_name, last_name, phone_number,
-                    email, java.sql.Date.valueOf(String.valueOf(birth_date))));
-        } catch (Exception e) {
-            System.out.println("Unable to add patient: " + e.getMessage());
+    private static Object addOnePAtient(Request req, Response res) throws SQLException {
+        String first_name = req.queryParams("first_name");
+        String last_name = req.queryParams("last_name");
+        String phone_number = req.queryParams("phone_number");
+        String email = req.queryParams("email");
+        String birth_date = req.queryParams("birth_date");
+        PatientsDTO onePatientDTO = patientsDAO.get(first_name, last_name, birth_date);
+        String content = "";
+        if (onePatientDTO == null) {
+            PatientsDTO patientsDTO = new PatientsDTO(first_name, last_name, phone_number, email, java.sql.Date.valueOf(birth_date));
+            patientsDAO.save(patientsDTO);
+            res.redirect("/patients/:last_name");
+        } else {
+            content = "patient already exists";
         }
-        return render("patient.vm", model);
+        return content + "<br/><a href='patientsForm'>try again</a>";
     }
 
 
@@ -190,15 +207,18 @@ public class Main {
         return render("specialization.vm", model);
     }
 
-    private static Object addOneSPecialization(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        String description = req.params("description");
-        try {
-            model.put("specialization", specializationsWebService.addOneSpecialization(description));
-        } catch (Exception e) {
-            System.out.println("Unable to add specialization: " + e.getMessage());
+    private static Object addOneSPecialization(Request req, Response res) throws SQLException {
+        String description = req.queryParams("description");
+        SpecializationsDTO oneSpecializationDTO = specializationsDAO.get(description);
+        String content = "";
+        if (oneSpecializationDTO == null) {
+            SpecializationsDTO specializationsDTO = new SpecializationsDTO(description);
+            specializationsDAO.save(specializationsDTO);
+            res.redirect("/specializations/:description");
+        } else {
+            content = "specialization already exists";
         }
-        return render("specialization.vm", model);
+        return content + "<br/><a href='specializationsForm'>try again</a>";
     }
 
     private static Object getAllAPpointments(Request req, Response res) {
@@ -206,7 +226,6 @@ public class Main {
         try {
             List<AppointmentsDTO> appointments = appointmentsWebService.getAllAppointments();
             System.out.println("appointments: " + appointments);
-
             model.put("appointments", appointments);
         } catch (Exception e) {
             System.out.println("Unable to get appointments: " + e.getMessage());
@@ -227,22 +246,23 @@ public class Main {
         return render("appointment.vm", model);
     }
 
-    private static Object addOneAPpointment(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        String doctorId = req.params("doctor_id");
-        String patientId = req.params("patient_id");
-        String appDate = req.params("appDate");
-        String status = req.params("status");
-        String doctorNotes = req.params("doctor_notes");
-        String patientNotes = req.params("patient_notes");
-        try {
-            model.put("appointment", appointmentsWebService.addOneAppointment(
-                    Integer.valueOf(doctorId), Integer.valueOf(patientId),
-                    Timestamp.valueOf(appDate), Check.valueOf(status), doctorNotes, patientNotes));
-        } catch (Exception e) {
-            System.out.println("Unable to add appointment: " + e.getMessage());
+    private static Object addOneAPpointment(Request req, Response res) throws SQLException {
+        String doctor_id= req.queryParams("doctor_id");
+        String patient_id = req.queryParams("patient_id");
+        String appDate = req.queryParams("appDate");
+        String status = req.queryParams("status");
+        String doctor_notes = req.queryParams("doctor_notes");
+        String patient_notes = req.queryParams("patient_notes");
+        String content= "";
+        AppointmentsDTO oneAppointmentDTO = appointmentsDAO.get(Integer.valueOf(doctor_id), Timestamp.valueOf(appDate));
+        if (oneAppointmentDTO == null) {
+            AppointmentsDTO appointmentsDTO = new AppointmentsDTO(Integer.valueOf(patient_id), Integer.valueOf(doctor_id), Timestamp.valueOf(appDate), Check.valueOf(status), doctor_notes, patient_notes);
+            appointmentsDAO.save(appointmentsDTO);
+            res.redirect("/appointments/:doctor_id, appDate");
+        } else {
+            content = "appointment already exists";
         }
-        return render("appointment.vm", model);
+        return content + "<br/><a href='appointmentsForm'>try again</a>";
     }
 
     private static Object getAllUSers(Request req, Response res) {
@@ -266,58 +286,78 @@ public class Main {
         return render("user.vm", model);
     }
 
-    private static Object addOneUSer(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        String first_name = req.params("first_name");
-        String last_name = req.params("last_name");
-        String password = req.params("password");
-        try {
-            model.put("user", usersWebService.addOneUser(first_name, last_name, password));
-        } catch (Exception e) {
-            System.out.println("Unable to add user: " + e.getMessage());
+    private static Object addOneUSer(Request req, Response res) throws SQLException {
+        String first_name = req.queryParams("first_name");
+        String last_name = req.queryParams("last_name");
+        String password = req.queryParams("password");
+        UsersDTO oneUserDTO = usersDAO.get(first_name, last_name, password);
+        String content = "";
+        if (oneUserDTO == null) {
+            UsersDTO usersDTO = new UsersDTO( first_name, last_name, password);
+            usersDAO.save(usersDTO);
+            res.redirect("/users/:last_name");
+        } else {
+            content = "user already exists";
         }
-        return render("user.vm", model);
+        return content + "<br/><a href='usersForm'>try again</a>";
     }
 
-    private static Object getAppointmentsMain(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("appointmentsMain", new Date().toString());
-        return render("appointmentsMain.vm", model);
-    }
 
-    private static Object getLogin(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("login", new Date().toString());
-        return render("login.vm", model);
-    }
 
-    private static Object getAppointmentsForm(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("appointmentsForm", new Date().toString());
-        return render("appointmentsForm.html", model);
-    }
 
-    private static Object getDoctorsForm(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("doctorsForm", new Date().toString());
-        return render("doctorsForm.html", model);
-    }
+        private static Object getAppointmentsMain (Request req, Response res){
+            Map<String, Object> model = new HashMap<>();
+            model.put("appointmentsMain", new Date().toString());
+            return render("appointmentsMain.vm", model);
+        }
 
-    private static Object getPatientsForm(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("patientsForm", new Date().toString());
-        return render("patientsForm.html", model);
-    }
+        private static Object getLogin (Request req, Response res){
+            Map<String, Object> model = new HashMap<>();
+            model.put("login", new Date().toString());
+            return render("login.vm", model);
+        }
 
-    public static Object getSpecializationsForm(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("specializationsForm", new Date().toString());
-        return render("specializationsForm.html", model);
-    }
+        private static Object getAppointmentsForm (Request req, Response res){
+            Map<String, Object> model = new HashMap<>();
+            model.put("appointmentsForm", new Date().toString());
+            return render("appointmentsForm.html", model);
+        }
 
-    public static Object getUsersForm(Request req, Response res) {
-        Map<String, Object> model = new HashMap<>();
-        model.put("usersForm", new Date().toString());
-        return render("usersForm.html", model);
+        private static Object getDoctorsForm (Request req, Response res){
+            Map<String, Object> model = new HashMap<>();
+            model.put("doctorsForm", new Date().toString());
+            return render("doctorsForm.html", model);
+        }
+
+        private static Object getPatientsForm (Request req, Response res){
+            Map<String, Object> model = new HashMap<>();
+            model.put("patientsForm", new Date().toString());
+            return render("patientsForm.html", model);
+        }
+
+        public static Object getSpecializationsForm (Request req, Response res){
+            Map<String, Object> model = new HashMap<>();
+            model.put("specializationsForm", new Date().toString());
+            return render("specializationsForm.html", model);
+        }
+
+        public static Object getUsersForm (Request req, Response res){
+            Map<String, Object> model = new HashMap<>();
+            model.put("usersForm", new Date().toString());
+            return render("usersForm.html", model);
+        }
+
+        public static Object getLOgin (Request req, Response res) throws SQLException {
+            Map<String, Object> model = new HashMap<>();
+            String last_name = req.queryParams("last_name");
+            String password = req.queryParams("password");
+            String content = "";
+            if (usersDAO.get(last_name, password) != null) {
+                res.redirect("/appointmentsMain");
+            } else {
+                content = "invalid user or password";
+            }
+            return content + "<br/><a href='login'>try again</a>";
+        }
+
     }
-}
